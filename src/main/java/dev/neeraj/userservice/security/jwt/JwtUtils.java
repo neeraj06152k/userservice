@@ -45,7 +45,7 @@ public class JwtUtils {
 
     public ResponseCookie generateCleanJwtCookie(){
         return ResponseCookie.from(jwtCookieName, "")
-                .path("/api")
+                .path("/")
                 .maxAge(0)
                 .httpOnly(false)
                 .build();
@@ -55,7 +55,7 @@ public class JwtUtils {
         long jwtExpireInSec = Long.parseLong(jwtExpireInHrs) * 60L * 60L;
 
         return ResponseCookie.from(jwtCookieName, generateJwtFromUserDetails(userDetails))
-                .path("/api")
+                .path("/")
                 .maxAge(jwtExpireInSec)
                 .httpOnly(false)
                 .build();
@@ -94,7 +94,8 @@ public class JwtUtils {
     }
 
     private String toCSV(List<Role> roles){
-        return String.join(",", roles.stream().map(Role::getName).toList());
+        return String.join(",",
+                roles.stream().map(Role::getName).toList());
     }
 
 

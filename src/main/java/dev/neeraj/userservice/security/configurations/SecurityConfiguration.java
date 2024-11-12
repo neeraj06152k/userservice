@@ -87,11 +87,13 @@ public class SecurityConfiguration {
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
+            String userRoleName = "ROLE_USER";
+            String adminRoleName = "ROLE_ADMIN";
 
-            Role userRole = roleRepository.findByNameIgnoreCase("USER")
-                    .orElseGet(() -> roleRepository.save(new Role("USER")));
-            Role adminRole = roleRepository.findByNameIgnoreCase("ADMIN")
-                    .orElseGet(() -> roleRepository.save(new Role("ADMIN")));
+            Role userRole = roleRepository.findByNameIgnoreCase(userRoleName)
+                    .orElseGet(() -> roleRepository.save(new Role(userRoleName)));
+            Role adminRole = roleRepository.findByNameIgnoreCase(adminRoleName)
+                    .orElseGet(() -> roleRepository.save(new Role(adminRoleName)));
 
 
             User user1 = new User();
