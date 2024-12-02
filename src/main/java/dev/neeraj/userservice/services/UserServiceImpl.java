@@ -7,6 +7,7 @@ import dev.neeraj.userservice.models.User;
 import dev.neeraj.userservice.repositories.UserRepository;
 import dev.neeraj.userservice.security.dtos.SignupRequestDto;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 @Primary
+@Log4j2
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -33,9 +35,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User signup(SignupRequestDto signupDto) throws UserAlreadyExists {
 
-        if(this.existsByEmail(signupDto.getEmail()))
+        if(this.existsByEmail(signupDto.getEmail())) {
+            log.atWarn().log("User with email: {} already exists", signupDto.getEmail());
             throw new UserAlreadyExists("UserAlreadyExists");
-
+        }
         Role userRole = new Role();
         userRole.setName("USER");
 

@@ -1,13 +1,11 @@
 package dev.neeraj.userservice.security.jwt;
 
-import dev.neeraj.userservice.models.User;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+@Log4j2
 @AllArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
 
@@ -51,8 +50,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (UsernameNotFoundException e) {
-                //logger.error("Cannot set user authentication: {}", e);
-
+                log.warn("User not found with email: {}", e.getMessage());
             }
         }
 
